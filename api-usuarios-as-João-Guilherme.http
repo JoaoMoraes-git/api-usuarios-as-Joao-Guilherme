@@ -1,0 +1,6 @@
+@api_usuarios_as_João_Guilherme_HostAddress = http://localhost:5112
+
+GET {{api_usuarios_as_João_Guilherme_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
