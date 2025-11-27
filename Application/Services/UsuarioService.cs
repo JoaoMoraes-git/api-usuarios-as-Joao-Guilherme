@@ -2,11 +2,62 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api_usuarios_as_João_Guilherme.Application.Interfaces;
+using api_usuarios_as_João_Guilherme.Infrastructure.Repositories;
 
 namespace api_usuarios_as_João_Guilherme.Application.Services
 {
-    public class UsuarioService
+    public class UsuarioService : IUsuarioService
     {
-        
+        private readonly IUsuarioRepository _repo;
+
+        public UsuarioService(IUsuarioRepository repo)
+        {
+            _repo = repo;
+        }
+
+
+        public async Task<UsuarioReadDto> AtualizarAsync(int id, UsuarioUpdateDto dto, CancellationToken ct = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<UsuarioReadDto> CriarAsync(UsuarioCreateDto dto, CancellationToken ct = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> EmailJaCadastradoAsync(string email, CancellationToken ct = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        //Ficar de olho nesse método
+        public async Task<IEnumerable<UsuarioReadDto>> ListarAsync(CancellationToken ct = default)
+        {
+            var usuarios = await _repo.GetAllAsync(ct);
+
+            return usuarios.Select(u => new UsuarioReadDto(
+                u.Id,
+                u.Nome,
+                u.Email,
+                u.Senha,
+                u.DataNascimento,
+                u.Telefone,
+                u.Ativo,
+                u.DataCriacao,
+                u.DataAtualizacao ?? default
+            ));
+        }
+
+        public async Task<UsuarioReadDto?> ObterAsync(CancellationToken ct = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> RemoverAsync(int id, CancellationToken ct = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

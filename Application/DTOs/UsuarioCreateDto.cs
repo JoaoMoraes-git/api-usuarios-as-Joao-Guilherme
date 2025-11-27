@@ -1,7 +1,7 @@
 public record UsuarioCreateDto(
     string Nome,
     string Email,
-    string senha,
+    string Senha,
     DateTime DataNascimento,
     string? Telefone
 );
