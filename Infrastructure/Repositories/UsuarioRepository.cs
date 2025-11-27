@@ -22,13 +22,13 @@ namespace api_usuarios_as_João_Guilherme.Infrastructure.Repositories
         //Procura a entidade com o id enviado
         public async Task<Usuario?> GetByIdAsync(int id, CancellationToken ct = default)
         {
-            return await _context.Usuarios.FirstOrDefaultAsync(p => p.Id == id, ct);
+            return await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == id, ct);
         }
 
         //Procura a entidade com o email enviado
         public async Task<Usuario?> GetEmailAsync(string email, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            return await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email, ct);
         }
 
         //Adiciona uma nova entidade ao banco de dados
@@ -55,7 +55,7 @@ namespace api_usuarios_as_João_Guilherme.Infrastructure.Repositories
         //Verifica se o email enviado já existe
         public async Task<bool> EmailExistsAsync(string email, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            return await _context.Usuarios.AnyAsync(u => u.Email == email, ct = default);
         }
 
         //Salva as alterações feitas
