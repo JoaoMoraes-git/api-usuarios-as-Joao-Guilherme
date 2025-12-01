@@ -11,7 +11,7 @@ namespace api_usuarios_as_João_Guilherme.domain
     {
         [Key]
         //Auto-increment aqui
-        public int Id { get; set; } //PK, Auto-increment - ...
+        public int Id { get; set; } //PK, Auto-increment - V
 
         [Required]
         [StringLength(100, MinimumLength = 3)]
@@ -19,30 +19,24 @@ namespace api_usuarios_as_João_Guilherme.domain
 
         [Required]
         [EmailAddress]
-        // Único / FluentAPI aqui
-        public string Email { get; set; } = string.Empty; //Obrigatório, formato válido, único - ... [FluentAPI]
+        public string Email { get; set; } = string.Empty; //Obrigatório, formato válido, único - V
 
         [Required]
         [MinLength(6)]
         public string Senha { get; set; } = string.Empty; //Obrigatório, min 6 caracteres - V
 
         [Required]
-        // Verificação de idade / FluentAPI aqui
-        public DateTime DataNascimento { get; set; } //Obrigatório, idade >= 18 anos - ... [FluentAPI]
+        public DateTime DataNascimento { get; set; } //Obrigatório, idade >= 18 anos - V
 
-        // Verificação de formato / FluentAPI aqui
-        public string? Telefone { get; set; } //Opcional, formato (XX) XXXXX-XXXX - X [FluentAPI]
+        public string? Telefone { get; set; } //Opcional, formato (XX) XXXXX-XXXX - V
 
         [Required]
-        // Default / FluentAPI aqui
-        public bool Ativo { get; set; } //Obrigatório, default true - ... [FluentAPI]
+        public bool Ativo { get; set; } = true; //Obrigatório, default true - V
 
         [Required]
-        // Preenchimento automatico / FluentAPI aqui
-        public DateTime DataCriacao { get; set; } = DateTime.Now; //Obrigatório, preenchido automaticamente - X [FluentAPI]
+        public DateTime DataCriacao { get; set; } = DateTime.Now; //Obrigatório, preenchido automaticamente - V
 
-        // Atualização automatica / FluentAPI aqui
-        public DateTime? DataAtualizacao { get; set; } // Opcional, atualizacao automaticamente - x [FluentAPI]
+        public DateTime? DataAtualizacao { get; set; } // Opcional, atualizacao automaticamente - V
 
     }
 }
