@@ -14,7 +14,7 @@ namespace api_usuarios_as_João_Guilherme.Application.Interfaces
         Task AddAsync(Usuario usuario, CancellationToken ct = default);
         Task UpdateAsync(Usuario usuario, CancellationToken ct = default);
         Task RemoveAsync(Usuario usuario, CancellationToken ct = default);
-        Task<bool> EmailExistsAsync(string email, CancellationToken ct = default);
+        Task<bool> EmailExistsAsync(string email, int? ignoreId = null, CancellationToken ct = default);
         Task SaveChangesAsync(CancellationToken ct = default);
     }
 }

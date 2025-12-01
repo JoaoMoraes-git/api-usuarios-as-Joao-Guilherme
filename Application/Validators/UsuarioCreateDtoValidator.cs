@@ -29,7 +29,7 @@ namespace api_usuarios_as_Joao_Guilherme.Application.Validators
                 .WithMessage("Email com formato inváido")
                 .MustAsync(async (email, ct) =>
                 {
-                    return !await repo.EmailExistsAsync(email, ct);
+                    return !await repo.EmailExistsAsync(email, ct: ct);
                 })
                 .WithMessage("Email já cadastrado");
           

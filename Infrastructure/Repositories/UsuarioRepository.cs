@@ -6,6 +6,7 @@ using api_usuarios_as_João_Guilherme.domain;
 using api_usuarios_as_João_Guilherme.Application.Interfaces;
 using api_usuarios_as_João_Guilherme.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace api_usuarios_as_João_Guilherme.Infrastructure.Repositories
 {
@@ -53,9 +54,10 @@ namespace api_usuarios_as_João_Guilherme.Infrastructure.Repositories
         }
 
         //Verifica se o email enviado já existe
-        public async Task<bool> EmailExistsAsync(string email, CancellationToken ct = default)
+        public async Task<bool> EmailExistsAsync(string email, int? ignoreId = null, CancellationToken ct = default)
         {
-            return await _context.Usuarios.AnyAsync(u => u.Email == email, ct = default);
+            return await _context.Usuarios.AnyAsync(u => u.Email == email 
+            && (!ignoreId.HasValue || u.Id != ignoreId.Value), ct);
         }
 
         //Salva as alterações feitas
