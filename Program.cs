@@ -6,6 +6,7 @@ using api_usuarios_as_João_Guilherme.Infrastructure.Repositories;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,14 +45,15 @@ app.MapPost("/usuarios", async (UsuarioCreateDto usuarioDto, IUsuarioService ser
 });
 
 //Atualizar usuário completo
-app.MapPut("/usuarios/{id}", async (int id, UsuarioUpdateDto usuarioDto, IUsuarioService service, CancellationToken ct) =>
+app.MapPut("/usuarios/{id}", async (int id, [FromBody] UsuarioUpdateDto usuarioDto, [FromServices] IUsuarioService service, CancellationToken ct) =>
 {
     var usuario = await service.AtualizarAsync(id, usuarioDto, ct);
     if (usuario == null) return Results.NotFound();
     return Results.Ok(usuario);
 });
 
-app.MapDelete("/usuarios/{id}", async (int id, UsuarioUpdateDto usuarioDto, IUsuarioService service, CancellationToken ct) =>
+//Remover usuário (soft delete)
+app.MapDelete("/usuarios/{id}", async (int id, IUsuarioService service, CancellationToken ct) =>
 {
     var usuario = await service.ObterAsync(id);
     if (usuario == null) return Results.NotFound();

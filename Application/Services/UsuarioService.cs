@@ -7,6 +7,7 @@ using api_usuarios_as_João_Guilherme.Application.DTOs;
 using api_usuarios_as_João_Guilherme.Infrastructure.Repositories;
 using AutoMapper;
 using api_usuarios_as_João_Guilherme.domain;
+using System.Linq.Expressions;
 
 namespace api_usuarios_as_João_Guilherme.Application.Services
 {
@@ -25,9 +26,12 @@ namespace api_usuarios_as_João_Guilherme.Application.Services
         public async Task<UsuarioReadDto> AtualizarAsync(int id, UsuarioUpdateDto dto, CancellationToken ct = default)
         {
             var usuarioEncontrado = await _repo.GetByIdAsync(id, ct);
-            if (usuarioEncontrado == null) return null;
+            if (usuarioEncontrado == null) throw new ArgumentException("Usuário não encontrado");
 
             _mapper.Map(dto, usuarioEncontrado);
+
+            usuarioEncontrado.Email = usuarioEncontrado.Email.Trim().ToLower();
+            usuarioEncontrado.DataAtualizacao = DateTime.UtcNow;
 
             await _repo.UpdateAsync(usuarioEncontrado, ct);
             await _repo.SaveChangesAsync(ct);
@@ -37,21 +41,29 @@ namespace api_usuarios_as_João_Guilherme.Application.Services
         public async Task<UsuarioReadDto> CriarAsync(UsuarioCreateDto dto, CancellationToken ct = default)
         {
             if (dto == null)
-                return null;
+                throw new ArgumentNullException("Dto está vazio");
+                // return null;
 
             if (string.IsNullOrWhiteSpace(dto.Nome))
-                return null;
+                throw new ArgumentException("Nome é obrigatório");
+                // return null;
 
             if (string.IsNullOrWhiteSpace(dto.Email))
-                return null;
+                throw new ArgumentException("Email é obrigatório");
+                // return null;
 
             if (string.IsNullOrWhiteSpace(dto.Senha))
-                return null;
+                throw new ArgumentException("Senha é obrigatória");
+                // return null;
 
             if (dto.DataNascimento == default)
-                return null;
+                throw new ArgumentException("Data de nascimento é obrigatória");
+                // return null;
 
             var usuario = _mapper.Map<Usuario>(dto);
+
+            //Deixa o email em lowercase e remove espaços no começo e final
+            usuario.Email = dto.Email.Trim().ToLower();
             
             //Campo de telefone é opcional
             if (!string.IsNullOrWhiteSpace(dto.Telefone))
@@ -61,10 +73,12 @@ namespace api_usuarios_as_João_Guilherme.Application.Services
 
             //Campos definidos pelo sistema
             usuario.DataCriacao = DateTime.UtcNow;
+            usuario.DataAtualizacao = DateTime.UtcNow; //Testando
             usuario.Ativo = true;
 
             await _repo.AddAsync(usuario, ct);
             await _repo.SaveChangesAsync(ct);
+         
 
             return _mapper.Map<UsuarioReadDto>(usuario);
 

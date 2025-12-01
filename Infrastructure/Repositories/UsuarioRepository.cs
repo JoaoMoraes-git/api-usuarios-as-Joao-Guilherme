@@ -14,6 +14,11 @@ namespace api_usuarios_as_João_Guilherme.Infrastructure.Repositories
     {
         private readonly AppDbContext _context;
 
+        public UsuarioRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+
         //Consulta todas as entidades
         public async Task<IEnumerable<Usuario>> GetAllAsync (CancellationToken ct = default)
         {
@@ -36,7 +41,7 @@ namespace api_usuarios_as_João_Guilherme.Infrastructure.Repositories
         public async Task AddAsync(Usuario usuario, CancellationToken ct = default)
         {
             await _context.Usuarios.AddAsync(usuario, ct);
-            // await _context.SaveChangesAsync(ct);
+            await _context.SaveChangesAsync(ct);
         }
 
         //Atualiza uma entidade do banco de dados
@@ -50,7 +55,7 @@ namespace api_usuarios_as_João_Guilherme.Infrastructure.Repositories
         public async Task RemoveAsync(Usuario usuario, CancellationToken ct = default)
         {
             _context.Remove(usuario);
-            // await _context.SaveChangesAsync(ct);
+            await _context.SaveChangesAsync(ct);
         }
 
         //Verifica se o email enviado já existe

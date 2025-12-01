@@ -10,7 +10,7 @@ namespace api_usuarios_as_João_Guilherme.Application.Validators
 {
     public class UsuarioUpdateValidator : AbstractValidator<UsuarioUpdateDto>
     {
-        public UsuarioUpdateValidator(IUsuarioRepository repo)
+        public UsuarioUpdateValidator(IUsuarioRepository repo, int idUrl)
         {
             RuleFor(u => u.Nome)
                 .NotEmpty()
@@ -27,7 +27,7 @@ namespace api_usuarios_as_João_Guilherme.Application.Validators
                 .WithMessage("Email com formato inváido")
                 .MustAsync(async (dto, email, ct) =>
                 {
-                    return !await repo.EmailExistsAsync(email, ignoreId: dto.Id, ct: ct);
+                    return !await repo.EmailExistsAsync(email, ignoreId: idUrl, ct: ct);
                 })
                 .WithMessage("Email já cadastrado");
 
