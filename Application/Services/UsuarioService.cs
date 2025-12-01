@@ -36,15 +36,48 @@ namespace api_usuarios_as_João_Guilherme.Application.Services
 
         public async Task<UsuarioReadDto> CriarAsync(UsuarioCreateDto dto, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            if (dto == null)
+                return null;
+
+            if (string.IsNullOrWhiteSpace(dto.Nome))
+                return null;
+
+            if (string.IsNullOrWhiteSpace(dto.Email))
+                return null;
+
+            if (string.IsNullOrWhiteSpace(dto.Senha))
+                return null;
+
+            if (dto.DataNascimento == default)
+                return null;
+
+            var usuario = _mapper.Map<Usuario>(dto);
+            
+            //Campo de telefone é opcional
+            if (!string.IsNullOrWhiteSpace(dto.Telefone))
+            {
+                usuario.Telefone = dto.Telefone.Trim();
+            }
+
+            //Campos definidos pelo sistema
+            usuario.DataCriacao = DateTime.UtcNow;
+            usuario.Ativo = true;
+
+            await _repo.AddAsync(usuario, ct);
+            await _repo.SaveChangesAsync(ct);
+
+            return _mapper.Map<UsuarioReadDto>(usuario);
+
         }
 
         public async Task<bool> EmailJaCadastradoAsync(string email, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            return await _repo.EmailExistsAsync(email, ct);
         }
 
-        //Ficar de olho nesse método
         public async Task<IEnumerable<UsuarioReadDto>> ListarAsync(CancellationToken ct = default)
         {
             var usuarios = await _repo.GetAllAsync(ct);
@@ -53,23 +86,37 @@ namespace api_usuarios_as_João_Guilherme.Application.Services
                 u.Id,
                 u.Nome,
                 u.Email,
-                u.Senha,
                 u.DataNascimento,
                 u.Telefone,
                 u.Ativo,
                 u.DataCriacao,
-                u.DataAtualizacao ?? default
+                u.DataAtualizacao
             ));
         }
 
-        public async Task<UsuarioReadDto?> ObterAsync(CancellationToken ct = default)
+        public async Task<UsuarioReadDto?> ObterAsync(int id, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+                return null;
+
+            var usuario = await _repo.GetByIdAsync(id, ct);
+            if (usuario == null)
+                return null;
+
+            return _mapper.Map<UsuarioReadDto>(usuario);
         }
 
         public async Task<bool> RemoverAsync(int id, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var usuario = await _repo.GetByIdAsync(id, ct);
+            if(usuario == null) return false;
+            
+            usuario.Ativo = false;
+            usuario.DataAtualizacao = DateTime.UtcNow;
+            
+            await _repo.UpdateAsync(usuario, ct);
+            await _repo.SaveChangesAsync(ct);
+            return true;
         }
     }
 }
