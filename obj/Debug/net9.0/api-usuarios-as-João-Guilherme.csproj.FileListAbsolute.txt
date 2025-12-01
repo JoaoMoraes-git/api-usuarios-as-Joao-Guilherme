@@ -75,10 +75,6 @@
 /home/joao/Área de trabalho/Ulbra/Back-end/api-usuarios-as-João-Guilherme/obj/Debug/net9.0/ref/api-usuarios-as-João-Guilherme.dll
 /home/joao/Área de trabalho/Ulbra/Back-end/api-usuarios-as-João-Guilherme/bin/Debug/net9.0/AutoMapper.dll
 /home/joao/Área de trabalho/Ulbra/Back-end/api-usuarios-as-João-Guilherme/bin/Debug/net9.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-/home/joao/Área de trabalho/Ulbra/Back-end/api-usuarios-as-João-Guilherme/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
-/home/joao/Área de trabalho/Ulbra/Back-end/api-usuarios-as-João-Guilherme/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
-/home/joao/Área de trabalho/Ulbra/Back-end/api-usuarios-as-João-Guilherme/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
-/home/joao/Área de trabalho/Ulbra/Back-end/api-usuarios-as-João-Guilherme/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
 /home/joao/Área de trabalho/Ulbra/Back-end/api-usuarios-as-João-Guilherme/bin/Debug/net9.0/Humanizer.dll
 /home/joao/Área de trabalho/Ulbra/Back-end/api-usuarios-as-João-Guilherme/bin/Debug/net9.0/Microsoft.Bcl.AsyncInterfaces.dll
 /home/joao/Área de trabalho/Ulbra/Back-end/api-usuarios-as-João-Guilherme/bin/Debug/net9.0/Microsoft.Build.Locator.dll

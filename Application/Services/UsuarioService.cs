@@ -75,7 +75,7 @@ namespace api_usuarios_as_João_Guilherme.Application.Services
             if (string.IsNullOrWhiteSpace(email))
                 return false;
 
-            return await _repo.EmailExistsAsync(email, ct);
+            return await _repo.EmailExistsAsync(email, ct: ct);
         }
 
         public async Task<IEnumerable<UsuarioReadDto>> ListarAsync(CancellationToken ct = default)
