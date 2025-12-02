@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("api-usuarios-as-João-Guilherme")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04c9f8565579012b2462ef3024d70d216939f71f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d924f084a64f9bec8d7d30d22c3d959ef9cd16dc")]
 [assembly: System.Reflection.AssemblyProductAttribute("api-usuarios-as-João-Guilherme")]
 [assembly: System.Reflection.AssemblyTitleAttribute("api-usuarios-as-João-Guilherme")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
