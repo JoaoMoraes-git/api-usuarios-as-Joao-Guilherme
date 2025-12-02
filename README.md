@@ -91,6 +91,7 @@ dotnet run
 
 ## Estrutura do Projeto
 
+```
 api-usuarios/
 ├── Application/                           # Camada de aplicação: regras de negócio, DTOs, serviços e validações
 |   ├── DTOs/                              # Modelos usados para entrada e saída de dados na API
@@ -131,7 +132,7 @@ api-usuarios/
 ├── README.md                              # Documentação do projeto com instruções de uso
 |
 └── usuario.db                             # Banco de dados SQLite criado automaticamente ao rodar a aplicação
-
+```
 
 
 ## Autor
