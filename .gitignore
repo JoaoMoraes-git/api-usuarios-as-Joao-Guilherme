@@ -1,0 +1,6 @@
+bin/
+obj/
+Migrations/
+usuario.db
+usuario.db-shm
+usuario.db-wal
