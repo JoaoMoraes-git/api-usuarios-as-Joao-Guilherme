@@ -10,7 +10,7 @@ namespace api_usuarios_as_João_Guilherme.Application.Validators
 {
     public class UsuarioUpdateValidator : AbstractValidator<UsuarioUpdateDto>
     {
-        public UsuarioUpdateValidator(IUsuarioRepository repo, int idUrl)
+        public UsuarioUpdateValidator(IUsuarioRepository repo)
         {
             RuleFor(u => u.Nome)
                 .NotEmpty()
@@ -24,12 +24,12 @@ namespace api_usuarios_as_João_Guilherme.Application.Validators
                 .NotEmpty()
                 .WithMessage("Campo de email é obrigatório")
                 .EmailAddress()
-                .WithMessage("Email com formato inváido")
-                .MustAsync(async (dto, email, ct) =>
-                {
-                    return !await repo.EmailExistsAsync(email, ignoreId: idUrl, ct: ct);
-                })
-                .WithMessage("Email já cadastrado");
+                .WithMessage("Email com formato inváido");
+                // .MustAsync(async (dto, email, ct) =>
+                // {
+                //     return !await repo.EmailExistsAsync(email, ct: ct);
+                // })
+                // .WithMessage("Email já cadastrado");
 
             RuleFor (u => u.DataNascimento)
                 .NotEmpty()
@@ -47,7 +47,7 @@ namespace api_usuarios_as_João_Guilherme.Application.Validators
                 .WithMessage("Usuário precisa ter pelo menos 18 anos");
 
             RuleFor (u => u.Telefone)
-                .Matches(@"^\(\d{2}\) \d{5}-\d{4}$")
+                .Matches(@"^\(\d{2}\) \d{4,5}-\d{4}$")
                 .When(u => !string.IsNullOrWhiteSpace(u.Telefone))
                 .WithMessage("Telefone deve estar no formato (XX) XXXXX-XXXX");
         }

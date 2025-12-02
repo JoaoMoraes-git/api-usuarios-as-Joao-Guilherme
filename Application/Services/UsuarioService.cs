@@ -26,7 +26,10 @@ namespace api_usuarios_as_João_Guilherme.Application.Services
         public async Task<UsuarioReadDto> AtualizarAsync(int id, UsuarioUpdateDto dto, CancellationToken ct = default)
         {
             var usuarioEncontrado = await _repo.GetByIdAsync(id, ct);
-            if (usuarioEncontrado == null) throw new ArgumentException("Usuário não encontrado");
+            if (usuarioEncontrado == null)
+            {
+                return null;
+            }
 
             _mapper.Map(dto, usuarioEncontrado);
 
@@ -40,48 +43,48 @@ namespace api_usuarios_as_João_Guilherme.Application.Services
 
         public async Task<UsuarioReadDto> CriarAsync(UsuarioCreateDto dto, CancellationToken ct = default)
         {
-            if (dto == null)
-                throw new ArgumentNullException("Dto está vazio");
-                // return null;
+            if (dto == null) throw new ArgumentNullException(nameof(dto));
+            if (string.IsNullOrWhiteSpace(dto.Nome)) throw new ArgumentException("Nome é obrigatório", nameof(dto.Nome));
+            if (string.IsNullOrWhiteSpace(dto.Email)) throw new ArgumentException("Email é obrigatório", nameof(dto.Email));
+            if (string.IsNullOrWhiteSpace(dto.Senha)) throw new ArgumentException("Senha é obrigatória", nameof(dto.Senha));
+            if (dto.DataNascimento == default) throw new ArgumentException("Data de nascimento é obrigatória", nameof(dto.DataNascimento));
 
-            if (string.IsNullOrWhiteSpace(dto.Nome))
-                throw new ArgumentException("Nome é obrigatório");
-                // return null;
+            // Normalizar email
+            var emailUsado = dto.Email.Trim().ToLowerInvariant();
 
-            if (string.IsNullOrWhiteSpace(dto.Email))
-                throw new ArgumentException("Email é obrigatório");
-                // return null;
+            // Verificar idade >= 18
+            var hoje = DateTime.UtcNow.Date;
+            var idade = hoje.Year - dto.DataNascimento.Date.Year;
+            if (dto.DataNascimento.Date > hoje.AddYears(-idade)) idade--;
+            if (idade < 18) throw new ArgumentException("Usuário deve ter pelo menos 18 anos");
 
-            if (string.IsNullOrWhiteSpace(dto.Senha))
-                throw new ArgumentException("Senha é obrigatória");
-                // return null;
+            // Checar email já cadastrado
+            if (await _repo.EmailExistsAsync(emailUsado, null, ct))
+                throw new InvalidOperationException("Email já cadastrado");
 
-            if (dto.DataNascimento == default)
-                throw new ArgumentException("Data de nascimento é obrigatória");
-                // return null;
-
+            // Mapear DTO para entidade e ajustar campos
             var usuario = _mapper.Map<Usuario>(dto);
-
-            //Deixa o email em lowercase e remove espaços no começo e final
-            usuario.Email = dto.Email.Trim().ToLower();
-            
-            //Campo de telefone é opcional
+            usuario.Email = emailUsado;
             if (!string.IsNullOrWhiteSpace(dto.Telefone))
-            {
                 usuario.Telefone = dto.Telefone.Trim();
-            }
 
-            //Campos definidos pelo sistema
             usuario.DataCriacao = DateTime.UtcNow;
-            usuario.DataAtualizacao = DateTime.UtcNow; //Testando
+            usuario.DataAtualizacao = null;
             usuario.Ativo = true;
 
             await _repo.AddAsync(usuario, ct);
-            await _repo.SaveChangesAsync(ct);
-         
+
+            try
+            {
+                await _repo.SaveChangesAsync(ct);
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException ex)
+            {
+                // Proteção contra race condition / constraint no DB
+                throw new InvalidOperationException("Falha ao salvar: email já cadastrado (constraint)", ex);
+            }
 
             return _mapper.Map<UsuarioReadDto>(usuario);
-
         }
 
         public async Task<bool> EmailJaCadastradoAsync(string email, CancellationToken ct = default)

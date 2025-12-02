@@ -26,12 +26,12 @@ namespace api_usuarios_as_Joao_Guilherme.Application.Validators
                 .NotEmpty()
                 .WithMessage("Campo de email é obrigatório")
                 .EmailAddress()
-                .WithMessage("Email com formato inváido")
-                .MustAsync(async (email, ct) =>
-                {
-                    return !await repo.EmailExistsAsync(email, ct: ct);
-                })
-                .WithMessage("Email já cadastrado");
+                .WithMessage("Email com formato inváido");
+                // .MustAsync(async (email, ct) =>
+                // {
+                //     return !await repo.EmailExistsAsync(email, ct: ct);
+                // })
+                // .WithMessage("Email já cadastrado");
           
             RuleFor (u => u.Senha)
                 .NotEmpty()

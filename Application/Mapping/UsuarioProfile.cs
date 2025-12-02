@@ -12,11 +12,19 @@ namespace api_usuarios_as_João_Guilherme.Application.Mapping
     {
         public UsuarioProfile()
         {
+            //Mapeamento de leitura
             CreateMap<Usuario, UsuarioReadDto>();
 
+            //Mapeamento de criação
             CreateMap<UsuarioCreateDto, Usuario>();
 
-            CreateMap<UsuarioUpdateDto, Usuario>();
+            //Mapeamento de atualização
+            CreateMap<UsuarioUpdateDto, Usuario>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+
+                .ForMember(dest => dest.DataCriacao, opt => opt.Ignore())
+
+                .ForMember(dest => dest.Senha, opt => opt.Ignore());
         }
         
 
