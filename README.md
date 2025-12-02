@@ -42,6 +42,9 @@ https://dotnet.microsoft.com/
 Comando de instalação:
 dotnet tool install --global dotnet-ef
 
+Se houver um erro, tente instalar:
+dotnet tool install --global dotnet-ef --version 8.0.0
+
 
 #### 3. Restaurar pacotes NuGet
 - Restaure os pacotes de NuGet via terminal
