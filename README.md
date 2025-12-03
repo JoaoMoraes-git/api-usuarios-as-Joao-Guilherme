@@ -1,5 +1,8 @@
 # API de Gerenciamento de Usuários
 
+## Link do vídeo
+https://drive.google.com/drive/folders/1liaTTtswHM6akrvMuxz7saB2rjUpa4Go?usp=sharing
+
 
 ## Descrição
 Esta API permite gerenciar usuários, podendo listar, adicionar, atualizar e remover no banco de dados.
